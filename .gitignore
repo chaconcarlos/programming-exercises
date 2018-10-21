@@ -1,1 +1,10 @@
 build
+*.tmp
+.cproject
+.project
+CMakeCache.txt
+CMakeFiles
+DartConfiguration.tcl
+Makefile
+cmake_install.cmake
+release
