@@ -1,11 +1,10 @@
 /**
- * @file HashTableTest.h
+ * @file CountingBitsTest.cpp
  *
  * @brief Implementation of the count bits method tests.
  *
  * @author   Carlos Chacon <chacon.carlosj@gmail.com>
  * @date     Mar 21, 2018
- * @revision $Revision: 1$.
  */
 
 /* INCLUDES ******************************************************************/
