@@ -10,7 +10,6 @@ SET (OUTPUT_NAME hashtable-example)
 # Print variables to stdout
 MESSAGE ( STATUS )
 MESSAGE ( STATUS "Configuring ${OUTPUT_NAME}:" )
-MESSAGE ( STATUS "Version: ${VERSION}" )
 MESSAGE ( STATUS "Build type: ${CMAKE_BUILD_TYPE}" )
 MESSAGE ( STATUS )
 
