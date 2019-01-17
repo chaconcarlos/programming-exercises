@@ -35,7 +35,7 @@ static std::vector<uint8_t> g_precomputedParities;
  * @return The number of set bits.
  */
 static size_t
-countSetBits(uint16_t x)
+countSetBits(uint64_t x)
 {
   unsigned int totalSetBits = 0;
 
@@ -63,28 +63,41 @@ precomputeParities()
   }
 }
 
-static uint8_t
-getParityInt8(uint8_t x)
+template<typename T>
+uint8_t
+getParityInt(T x)
+{
+  const uint8_t bitCount = countSetBits(x);
+  const uint8_t parity   = bitCount % 2 == 0 ? 0 : 1;
+  return parity;
+}
+
+template<>
+uint8_t
+getParityInt(uint8_t x)
 {
   return g_precomputedParities[x];
 }
 
-static uint8_t
-getParityInt16(uint16_t x)
+template<>
+uint8_t
+getParityInt(uint16_t x)
 {
-  return getParityInt8(x >> 8) ^ getParityInt8(x & 0xFFFF);
+  return getParityInt<uint8_t>(x >> 8) ^ getParityInt<uint8_t>(x & 0xFFFF);
 }
 
-static uint8_t
-getParityInt32(uint32_t x)
+template<>
+uint8_t
+getParityInt(uint32_t x)
 {
-  return getParityInt16(x >> 16) ^ getParityInt16(x & 0xFFFF);
+  return getParityInt<uint16_t>(x >> 16) ^ getParityInt<uint16_t>(x & 0xFFFF);
 }
 
-static uint8_t
-getParityInt64(uint64_t x)
+template<>
+uint8_t
+getParityInt(uint64_t x)
 {
-  return getParityInt32(x >> 32) ^ getParityInt32(x & 0xFFFFFFFF);
+  return getParityInt<uint32_t>(x >> 32) ^ getParityInt<uint32_t>(x & 0xFFFFFFFF);
 }
 
 /* IMPLEMENTATION ************************************************************/
@@ -98,7 +111,7 @@ TEST(ParityCalculation, parity_test8bit0_return0)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt8(testNumber), Eq(0));
+  ASSERT_THAT(getParityInt(testNumber), Eq(0));
 }
 
 TEST(ParityCalculation, parity_test8bit1_return1)
@@ -110,7 +123,7 @@ TEST(ParityCalculation, parity_test8bit1_return1)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt8(testNumber), Eq(1));
+  ASSERT_THAT(getParityInt(testNumber), Eq(1));
 }
 
 TEST(ParityCalculation, parity_test8bit255_return0)
@@ -122,7 +135,7 @@ TEST(ParityCalculation, parity_test8bit255_return0)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt8(testNumber), Eq(0));
+  ASSERT_THAT(getParityInt(testNumber), Eq(0));
 }
 
 TEST(ParityCalculation, parity_test16bit256_return1)
@@ -134,7 +147,7 @@ TEST(ParityCalculation, parity_test16bit256_return1)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt16(testNumber), Eq(1));
+  ASSERT_THAT(getParityInt(testNumber), Eq(1));
 }
 
 TEST(ParityCalculation, parity_test16bit4352_return1)
@@ -146,7 +159,7 @@ TEST(ParityCalculation, parity_test16bit4352_return1)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt16(testNumber), Eq(0));
+  ASSERT_THAT(getParityInt(testNumber), Eq(0));
 }
 
 TEST(ParityCalculation, parity_test16bit32768_return1)
@@ -158,7 +171,7 @@ TEST(ParityCalculation, parity_test16bit32768_return1)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt16(testNumber), Eq(1));
+  ASSERT_THAT(getParityInt(testNumber), Eq(1));
 }
 
 TEST(ParityCalculation, parity_test32bit65536_return1)
@@ -170,7 +183,7 @@ TEST(ParityCalculation, parity_test32bit65536_return1)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt32(testNumber), Eq(1));
+  ASSERT_THAT(getParityInt(testNumber), Eq(1));
 }
 
 TEST(ParityCalculation, parity_test32bit65540_return0)
@@ -182,7 +195,7 @@ TEST(ParityCalculation, parity_test32bit65540_return0)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt32(testNumber), Eq(0));
+  ASSERT_THAT(getParityInt(testNumber), Eq(0));
 }
 
 TEST(ParityCalculation, parity_test32bit589892_return0)
@@ -194,7 +207,7 @@ TEST(ParityCalculation, parity_test32bit589892_return0)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt32(testNumber), Eq(0));
+  ASSERT_THAT(getParityInt(testNumber), Eq(0));
 }
 
 TEST(ParityCalculation, parity_test32bit2148073540_return0)
@@ -206,7 +219,7 @@ TEST(ParityCalculation, parity_test32bit2148073540_return0)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt32(testNumber), Eq(1));
+  ASSERT_THAT(getParityInt(testNumber), Eq(1));
 }
 
 TEST(ParityCalculation, parity_test64bit17394676524_return0)
@@ -218,7 +231,7 @@ TEST(ParityCalculation, parity_test64bit17394676524_return0)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt64(testNumber), Eq(0));
+  ASSERT_THAT(getParityInt(testNumber), Eq(0));
 }
 
 TEST(ParityCalculation, parity_test64bit86114153260_return1)
@@ -230,5 +243,5 @@ TEST(ParityCalculation, parity_test64bit86114153260_return1)
   precomputeParities();
 
   // Assert
-  ASSERT_THAT(getParityInt64(testNumber), Eq(1));
+  ASSERT_THAT(getParityInt(testNumber), Eq(1));
 }
