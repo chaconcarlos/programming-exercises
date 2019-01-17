@@ -35,7 +35,7 @@ swapIntegers(int& a, int& b)
 
 /* IMPLEMENTATION ************************************************************/
 
-TEST(swap, swap_276_664_complete)
+TEST(SwapIntegerNoTemporal, swap_276_664_complete)
 {
   // Arrange
   int a = 276;
@@ -48,7 +48,7 @@ TEST(swap, swap_276_664_complete)
   ASSERT_THAT(b, Eq(276));
 }
 
-TEST(swap, swap_0_1675_complete)
+TEST(SwapIntegerNoTemporal, swap_0_1675_complete)
 {
   // Arrange
   int a = 0;
