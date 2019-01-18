@@ -13,10 +13,6 @@
 #include <cstdint>
 #include <string>
 
-
-
-#include <iostream>
-
 /* USINGS ********************************************************************/
 
 using namespace testing;
