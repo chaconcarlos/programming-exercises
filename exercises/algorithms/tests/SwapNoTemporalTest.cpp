@@ -1,5 +1,5 @@
 /**
- * @file CountingBitsTest.cpp
+ * @file SwapNoTemporalTest.cpp
  *
  * @brief Implementation of the algorithm that swaps two integers without a temporal variable.
  *

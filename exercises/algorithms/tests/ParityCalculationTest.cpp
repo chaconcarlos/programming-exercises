@@ -1,5 +1,5 @@
 /**
- * @file CountingBitsTest.cpp
+ * @file ParityCaculationTest.cpp
  *
  * @brief Implementation of the parity calculation method test.
  *
