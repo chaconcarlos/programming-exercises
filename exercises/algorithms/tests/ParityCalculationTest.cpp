@@ -63,6 +63,13 @@ precomputeParities()
   }
 }
 
+/*
+ * @brief Gets the parity of an int.
+ *
+ * @param x The int to calculate the parity to.
+ *
+ * @return The parity of the given int.
+ */
 template<typename T>
 uint8_t
 getParityInt(T x)
@@ -72,6 +79,13 @@ getParityInt(T x)
   return parity;
 }
 
+/*
+ * @brief Gets the parity of an int.
+ *
+ * @param x The int to calculate the parity to.
+ *
+ * @return The parity of the given int.
+ */
 template<>
 uint8_t
 getParityInt(uint8_t x)
@@ -79,6 +93,13 @@ getParityInt(uint8_t x)
   return g_precomputedParities[x];
 }
 
+/*
+ * @brief Gets the parity of an int.
+ *
+ * @param x The int to calculate the parity to.
+ *
+ * @return The parity of the given int.
+ */
 template<>
 uint8_t
 getParityInt(uint16_t x)
@@ -86,6 +107,13 @@ getParityInt(uint16_t x)
   return getParityInt<uint8_t>(x >> 8) ^ getParityInt<uint8_t>(x & 0xFFFF);
 }
 
+/*
+ * @brief Gets the parity of an int.
+ *
+ * @param x The int to calculate the parity to.
+ *
+ * @return The parity of the given int.
+ */
 template<>
 uint8_t
 getParityInt(uint32_t x)
@@ -93,6 +121,13 @@ getParityInt(uint32_t x)
   return getParityInt<uint16_t>(x >> 16) ^ getParityInt<uint16_t>(x & 0xFFFF);
 }
 
+/*
+ * @brief Gets the parity of an int.
+ *
+ * @param x The int to calculate the parity to.
+ *
+ * @return The parity of the given int.
+ */
 template<>
 uint8_t
 getParityInt(uint64_t x)
