@@ -27,24 +27,6 @@ static std::vector<uint8_t> g_precomputedParities;
 
 /* STATIC FUNCTIONS **********************************************************/
 
-/**
- * @brief Counts the number of set bits for an int.
- *
- * @param x The int to count set bits to.
- *
- * @return The number of set bits.
- */
-static size_t
-countSetBits(uint64_t x)
-{
-  unsigned int totalSetBits = 0;
-
-  for (; x; ++totalSetBits)
-    x = x & (x - 1); // Returns x with the less significant bit cleared.
-
-  return totalSetBits;
-}
-
 /*
  * @brief Precomputes the parities for 8 bit values.
  */
@@ -55,8 +37,7 @@ precomputeParities()
   {
     for (size_t i = 0; i <= std::numeric_limits<uint8_t>::max(); ++i)
     {
-      const uint8_t bitCount = countSetBits(i);
-      const uint8_t parity   = bitCount % 2 == 0 ? 0 : 1;
+      const uint8_t parity = (((i * 0x0101010101010101ULL) & 0x8040201008040201ULL) % 0x1FF) & 1;;
 
       g_precomputedParities.push_back(parity);
     }
