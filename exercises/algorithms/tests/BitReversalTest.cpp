@@ -24,6 +24,9 @@ static std::vector<uint8_t> g_precomputedReverseBits;
 
 /* STATIC FUNCTIONS **********************************************************/
 
+/*
+ * @brief Precomputes the value of the reversed bites for every 8 bit integer.
+ */
 static void
 precomputeReverseBits()
 {
