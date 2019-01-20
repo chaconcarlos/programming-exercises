@@ -69,7 +69,7 @@ convertIntToString(const int64_t x)
 
 TEST(IntToString, convert_0_returnValidString)
 {
-  // Assert
+  // Arrange
   const int number = 0;
 
   // Act
@@ -81,7 +81,7 @@ TEST(IntToString, convert_0_returnValidString)
 
 TEST(IntToString, convert_1_returnValidString)
 {
-  // Assert
+  // Arrange
   const int number = 1;
 
   // Act
@@ -93,7 +93,7 @@ TEST(IntToString, convert_1_returnValidString)
 
 TEST(IntToString, convert_135_returnValidString)
 {
-  // Assert
+  // Arrange
   const int number = 135;
 
   // Act
@@ -105,7 +105,7 @@ TEST(IntToString, convert_135_returnValidString)
 
 TEST(IntToString, convert_13456_returnValidString)
 {
-  // Assert
+  // Arrange
   const int number = 13456;
 
   // Act
@@ -117,7 +117,7 @@ TEST(IntToString, convert_13456_returnValidString)
 
 TEST(IntToString, convert_Negative13456_returnValidString)
 {
-  // Assert
+  // Arrange
   const int number = -13456;
 
   // Act
@@ -129,7 +129,7 @@ TEST(IntToString, convert_Negative13456_returnValidString)
 
 TEST(IntToString, convert_691489734656_returnValidString)
 {
-  // Assert
+  // Arrange
   const int64_t number = 691489734656;
 
   // Act
@@ -142,7 +142,7 @@ TEST(IntToString, convert_691489734656_returnValidString)
 
 TEST(IntToString, convert_Negative691489734656_returnValidString)
 {
-  // Assert
+  // Arrange
   const int64_t number = -691489734656;
 
   // Act
