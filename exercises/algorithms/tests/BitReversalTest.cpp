@@ -10,6 +10,7 @@
 /* INCLUDES ******************************************************************/
 
 #include <gmock/gmock.h>
+
 #include <cstdint>
 #include <limits>
 #include <string>

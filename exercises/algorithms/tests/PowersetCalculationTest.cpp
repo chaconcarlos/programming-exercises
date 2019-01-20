@@ -1,7 +1,7 @@
 /**
- * @file BitReversalTest.cpp
+ * @file PowersetCalculationTest.cpp
  *
- * @brief Implementation of the tests of the method that does a reversal on the bits of an integer.
+ * @brief Implementation of the tests of the method that calculates the powerset of a string.
  *
  * @author   Carlos Chacon <chacon.carlosj@gmail.com>
  * @date     Mar 21, 2018
@@ -10,6 +10,7 @@
 /* INCLUDES ******************************************************************/
 
 #include <gmock/gmock.h>
+
 #include <cstdint>
 #include <limits>
 #include <string>
