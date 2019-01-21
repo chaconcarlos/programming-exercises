@@ -53,6 +53,7 @@ convertIntToString(const int64_t x)
     // I use append and not push_back because push_back is not part of the semantics of a string.
     // Append is more readable, and probably has a far better understading of a string vs a
     // standard container.
+    // https://stackoverflow.com/questions/15082170/c-stdstring-append-vs-push-back
     result.append(1, nextChar);
     nextStep = nextStep / TENS_DIVISOR;
   }
