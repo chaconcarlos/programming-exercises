@@ -19,6 +19,10 @@
 
 using namespace testing;
 
+/* DEFINITIONS ***************************************************************/
+
+static const uint8_t BITS_IN_BYTE = 8;
+
 /* STATIC DECLARATIONS *******************************************************/
 
 static std::vector<uint8_t> g_precomputedReverseBits;
@@ -43,70 +47,96 @@ precomputeReverseBits()
 }
 
 /*
- * @brief Gets the parity of an int.
+ * @brief Reverse the bits of the given integer and returns the resulting integer.
  *
- * @param x The int to calculate the parity to.
+ * @param input The integer to reverse.
  *
- * @return The parity of the given int.
+ * @return The result integer of doing a reverse on the bits of the input.
  */
 template<typename T>
 uint8_t
-reverseBits(T x) = delete;
+reverseBits(T input) = delete;
 
 /*
- * @brief Gets the parity of an int.
+ * @brief Reverse the bits of the given integer and returns the resulting integer.
  *
- * @param x The int to calculate the parity to.
+ * @param input The integer to reverse.
  *
- * @return The parity of the given int.
+ * @return The result integer of doing a reverse on the bits of the input.
  */
 template<>
 uint8_t
-reverseBits(uint8_t x)
+reverseBits(uint8_t input)
 {
-  return g_precomputedReverseBits[x];
+  return g_precomputedReverseBits[input];
 }
 
 /*
- * @brief Gets the parity of an int.
+ * @brief Reverse the bits of the given integer and returns the resulting integer.
  *
- * @param x The int to calculate the parity to.
+ * @param input The integer to reverse.
  *
- * @return The parity of the given int.
+ * @return The result integer of doing a reverse on the bits of the input.
  */
 template<>
 uint8_t
-reverseBits(uint16_t x)
+reverseBits(uint16_t input)
 {
-  return reverseBits<uint8_t>(x >> 8) ^ reverseBits<uint8_t>(x & 0xFFFF);
+  return reverseBits<uint8_t>(input >> 8) ^ reverseBits<uint8_t>(input & 0xFFFF);
 }
 
 /*
- * @brief Gets the parity of an int.
+ * @brief Reverse the bits of the given integer and returns the resulting integer.
  *
- * @param x The int to calculate the parity to.
+ * @param input The integer to reverse.
  *
- * @return The parity of the given int.
+ * @return The result integer of doing a reverse on the bits of the input.
  */
 template<>
 uint8_t
-reverseBits(uint32_t x)
+reverseBits(uint32_t input)
 {
-  return reverseBits<uint16_t>(x >> 16) ^ reverseBits<uint16_t>(x & 0xFFFF);
+  return reverseBits<uint16_t>(input >> 16) ^ reverseBits<uint16_t>(input & 0xFFFF);
 }
 
 /*
- * @brief Gets the parity of an int.
+ * @brief Reverse the bits of the given integer and returns the resulting integer.
  *
- * @param x The int to calculate the parity to.
+ * @param input The integer to reverse.
  *
- * @return The parity of the given int.
+ * @return The result integer of doing a reverse on the bits of the input.
  */
 template<>
 uint8_t
-reverseBits(uint64_t x)
+reverseBits(uint64_t input)
 {
-  return reverseBits<uint32_t>(x >> 32) ^ reverseBits<uint32_t>(x & 0xFFFFFFFF);
+  return reverseBits<uint32_t>(input >> 32) ^ reverseBits<uint32_t>(input & 0xFFFFFFFF);
+}
+
+/*
+ * @brief Reverse the bits of the given integer and returns the resulting integer.
+ *
+ * @param input The integer to reverse.
+ *
+ * @return The result integer of doing a reverse on the bits of the input.
+ */
+static uint8_t
+reverseBitsSlow(const uint8_t input)
+{
+  const size_t bitCount    = sizeof(input) * BITS_IN_BYTE;
+  const size_t shiftOffset = bitCount - 1;
+  uint8_t      result      = 0;
+
+  for (size_t i = bitCount; i > 0; --i)
+  {
+    const size_t  shift    = i - 1;
+    const uint8_t bitValue = (input >> shift) & 1;
+
+    if (bitValue)
+      result |= (1 << (shiftOffset - shift));
+  }
+
+  return result;
 }
 
 /* IMPLEMENTATION ************************************************************/
@@ -145,4 +175,13 @@ TEST(BitReversal, reverse_691489734656_return133)
 
   // Assert
   ASSERT_THAT(reverseBits(testNumber), Eq(133));
+}
+
+TEST(BitReversal, reverse_slow_int8c_2_return1073741824)
+{
+  // Arrange
+  const uint8_t testNumber = 32;
+
+  // Assert
+  ASSERT_THAT(reverseBitsSlow(testNumber), Eq(4));
 }
