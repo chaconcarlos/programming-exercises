@@ -64,13 +64,11 @@ convertDigitToInt(const char digit)
 }
 
 /**
- * @brief Converts a string representation of a number to a different base.
+ * @brief Decodes the ID of a spreadsheet column as an integer.
  *
- * @param inputBase  The base of the input string.
- * @param targetBase The target base for conversion.
- * @param input      The input string.
+ * @param input The input string.
  *
- * @return The string representation of the input converted to the target base.
+ * @return The decoded ID.
  */
 static int64_t
 decode(const std::string& input)
