@@ -17,18 +17,15 @@
 #include <stdexcept>
 #include <string>
 
-
-#include <iostream>
-
 /* USINGS ********************************************************************/
 
 using namespace testing;
 
 /* DEFINITIONS ***************************************************************/
 
-static const int         TENS_MULTIPLIER     = 10;
-static const int         ASCII_DIGITS_OFFSET = 48;
 static const char        NEGATIVE_SIGN       = '-';
+static const uint8_t     TENS_MULTIPLIER     = 10;
+static const uint8_t     ASCII_DIGITS_OFFSET = 48;
 static const std::string ZERO_STRING         = "0";
 
 /* STATIC FUNCTIONS **********************************************************/
