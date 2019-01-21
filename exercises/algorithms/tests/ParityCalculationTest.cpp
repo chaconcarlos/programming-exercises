@@ -35,8 +35,8 @@ precomputeParities()
   {
     for (size_t i = 0; i <= std::numeric_limits<uint8_t>::max(); ++i)
     {
+      // As seen on https://graphics.stanford.edu/~seander/bithacks.html
       const uint8_t parity = (((i * 0x0101010101010101ULL) & 0x8040201008040201ULL) % 0x1FF) & 1;;
-
       g_precomputedParities.push_back(parity);
     }
   }

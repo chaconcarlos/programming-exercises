@@ -35,6 +35,7 @@ precomputeReverseBits()
   {
     for (size_t i = 0; i <= std::numeric_limits<uint8_t>::max(); ++i)
     {
+      // As seen on https://graphics.stanford.edu/~seander/bithacks.html
       const uint8_t reversedValue = (i * 0x0202020202ULL & 0x010884422010ULL) % 1023;
       g_precomputedReverseBits.push_back(reversedValue);
     }
