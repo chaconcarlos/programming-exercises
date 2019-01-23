@@ -36,6 +36,8 @@ static const std::string ZERO_STRING         = "0";
  * @param input The string.
  *
  * @return The int representation of the given string.
+ *
+ * @throw invalid_argument if the input is empty, or not a valid integer.
  */
 static int64_t
 convertStringToInt(const std::string& input)
