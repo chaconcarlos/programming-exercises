@@ -1,7 +1,8 @@
 /**
- * @file RemoveDuplicatesLinkedList.cpp
+ * @file RemoveMiddleItemLinkedList.cpp
  *
- * @brief Write code to remove duplicates from an unsorted linked list.
+ * @brief Implement an algorithm to delete a node in the middle of a singly linked list,
+ *        given only access to that node.
  *
  * @author Carlos Chacon <chacon.carlosj@gmail.com>
  * @date   Jan 24, 2019
@@ -65,31 +66,16 @@ buildLinkedList(const std::vector<uint8_t>& values)
  * @param list The pointer to the linked list.
  */
 static void
-removeDuplicates(Node* list)
+remove(Node* node)
 {
-  if (list != NULL)
+  if (node != NULL && node->next != NULL)
   {
-    Node* currentNode   = list;
-    Node* iterationNode = currentNode;
+    Node* nextNode = node->next;
 
-    while (currentNode)
-    {
-      while (iterationNode)
-      {
-        const Node* nextNode = iterationNode->next;
+    node->value = nextNode->value;
+    node->next  = nextNode->next;
 
-        if (nextNode && nextNode->value == currentNode->value)
-        {
-          iterationNode->next = nextNode->next;
-          delete(nextNode);
-        }
-
-        iterationNode = iterationNode->next;
-      }
-
-      currentNode   = currentNode->next;
-      iterationNode = currentNode;
-    }
+    delete(nextNode);
   }
 }
 
@@ -116,17 +102,22 @@ print(const Node* const list)
 
 int main()
 {
-  const std::vector<uint8_t> values = { 0, 5, 6, 7, 4, 2, 2, 6, 0, 1, 3, 5 };
-  Node* list = buildLinkedList(values);
+  const std::vector<uint8_t> values     = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+  Node*                      list       = buildLinkedList(values);
+  Node*                      middleNode = list;
+
+  for (size_t i = 0; i < values.size() / 2; ++i)
+    middleNode = middleNode->next;
 
   std::cout << "ORIGINAL" << std::endl;
   std::cout << "========" << std::endl;
   print(list);
   std::cout << std::endl;
-
+  std::cout << "Middle node to remove is: " << (double)middleNode->value << std::endl;
+  std::cout << std::endl;
   std::cout << "OUTPUT" << std::endl;
   std::cout << "======" << std::endl;
-  removeDuplicates(list);
+  remove(middleNode);
   print(list);
   std::cout << std::endl;
 }
