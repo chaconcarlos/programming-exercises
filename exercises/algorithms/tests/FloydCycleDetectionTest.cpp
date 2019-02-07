@@ -73,6 +73,8 @@ void push(ListNode** head, int x)
  * @param head The head of the linked list.
  *
  * @return If a cycle exists, returns the node where the cycle begins. If there are no cycles, returns NULL.
+ *
+ * @remarks https://cs.stackexchange.com/questions/10360/floyds-cycle-detection-algorithm-determining-the-starting-point-of-cycle
  */
 static ListNode*
 getCycleNode(ListNode* const head)
