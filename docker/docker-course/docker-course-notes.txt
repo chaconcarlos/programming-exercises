@@ -17,6 +17,7 @@ COMMANDS
   -d -> run in detached mode.
   -i -> enables interactive mode. Keeps STDIN open. Usually combined with -t.
   -t -> allocates a pseudo TTY.
+  -v [VOLUME_NAME]:[HOST_PATH] -> creates a named volume in the given host path.
   --rm -> automatically remove the container when it finishes or is stopped.
   --name [CONTAINER_NAME] -> adds a name to the container.
 * docker container attach [CONTAINER_NAME] -> attachs to a container.
@@ -64,3 +65,12 @@ SHARING IMAGES
 * If no host is given, uses Docker Hub.
 * Log to the repository: docker login
 
+VOLUMES
+=======
+* Volumes: managed by docker. 
+  - Anonymous volumes:
+    - Only can access through docker volume.
+    - Volumes only exists while the container exists.
+  - Named volumes
+    - Exists after the container is stopped / removed.
+* Use VOLUME in the Dockerfile. If no local path in the host is given, 
