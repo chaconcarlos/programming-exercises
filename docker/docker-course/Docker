@@ -48,3 +48,12 @@ IMAGES
   - Layer-based architecture.
 * docker build [DOCKERFILE_PATH] -> builds a custom image based on a Dockerfile
 * Image tags -> name:tag. For example, node:14
+
+SHARING IMAGES
+==============
+* Two ways:
+  - Share Dockerfile: needs everything outside of the image, and build the image.
+  - Share the image: just create a container and run. No build required.
+* Images can be pushed to:
+  - Docker Hub: official image repository.
+  - Private registry. Artifactory?
