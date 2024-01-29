@@ -1,0 +1,50 @@
+Docker
+======
+* Environments
+  - On Mac OS / Windows -> Docker Desktop
+  - Linux: Docker engine supported natively.
+* Tools
+  - Docker Engine
+  - Docker Desktop
+  - Docker Hub
+  - Docker Composer
+  - Kubernetes
+
+COMMANDS
+========
+* docker run [IMAGE_NAME] -> will pull the image and run a container with that image.
+  -p [LOCAL_PORT:CONTAINER_PORT] -> exposes the container port as the local port indicated.
+  -d -> run in detached mode.
+  -i -> enables interactive mode. Keeps STDIN open. Usually combined with -t.
+  -t -> allocates a pseudo TTY.
+  --rm -> automatically remove the container when it finishes or is stopped.
+  --name [CONTAINER_NAME] -> adds a name to the container.
+* docker container attach [CONTAINER_NAME] -> attachs to a container.
+* docker logs [CONTAINER_NAME] -> check the messages logged by a container without attaching.
+  -f -> enables follow mode, which will continue to update.
+* docker ps -> List of containers that are running.
+  -a List all containers, even the ones that are not running.
+* docker build [DOCKERFILE_PATH] -> builds a custom image based on a Dockerfile
+  -t [name]:[tag] -> assigns a tag to the image.
+* docker start [CONTAINER_NAME] -> restarts a container. With this command, the container will run in the background (detached mode).
+  -a -> enables attach mode.
+  -i -> enables interactive mode. Keeps STDIN open. Usually combined with -t.
+  - start vs run: run creates a container. start restarts an already created container.
+* docker stop [CONTAINER_NAME] -> stops a container.
+* docker rm [CONTAINER_NAME] -> removes a container. Should be stopped before removing.
+* docker images -> list images created.
+* docker rmi [IMAGE_NAME] (*) -> removes an image. No containers should be using the image.
+* docker image prune -> removes all unused images.
+* docker image inspect [IMAGE_NAME] -> shows the whole configuration for the image.
+* docker cp [SOURCE_PATH][/.] [CONTAINER_NAME]:[CONTAINER_TARGET_PATH] -> copy files to a container.
+  - docker cp [CONTAINER_NAME]:[CONTAINER_TARGET_PATH] [SOURCE_PATH] -> copy files from a container.
+
+IMAGES
+======
+* Usually, we download images and build images based on those.
+* An image is read-only once is created.
+  - Changes can only be done by rebuilding.
+* When rebuilding an image, if there's no changes in the instructions, it will use a cache to rebuild faster.
+  - Layer-based architecture.
+* docker build [DOCKERFILE_PATH] -> builds a custom image based on a Dockerfile
+* Image tags -> name:tag. For example, node:14
