@@ -36,6 +36,7 @@ COMMANDS
 * docker rmi [IMAGE_NAME] (*) -> removes an image. No containers should be using the image.
 * docker image prune -> removes all unused images.
 * docker image inspect [IMAGE_NAME] -> shows the whole configuration for the image.
+* docker tag [OLD_IMAGE_NAME] [NEW_IMAGE_NAME] -> retags an image. When renaming an image, it creates a clone, doesn't rename perse.
 * docker cp [SOURCE_PATH][/.] [CONTAINER_NAME]:[CONTAINER_TARGET_PATH] -> copy files to a container.
   - docker cp [CONTAINER_NAME]:[CONTAINER_TARGET_PATH] [SOURCE_PATH] -> copy files from a container.
 
@@ -57,6 +58,9 @@ SHARING IMAGES
 * Images can be pushed to:
   - Docker Hub: official image repository.
   - Private registry. Artifactory?
-* Share: docker push [HOST]:[IMAGE_NAME]
+* Share: docker push [HOST]:[IMAGE_NAME]:[TAG]
+  - if no tag is given, it sets it as latest.
 * Use: docker pull [HOST]:[IMAGE_NAME]
 * If no host is given, uses Docker Hub.
+* Log to the repository: docker login
+
