@@ -17,7 +17,8 @@ COMMANDS
   -d -> run in detached mode.
   -i -> enables interactive mode. Keeps STDIN open. Usually combined with -t.
   -t -> allocates a pseudo TTY.
-  -v [VOLUME_NAME]:[HOST_PATH] -> creates a named volume in the given host path.
+  -v [VOLUME_NAME]:[CONTAINER_PATH] -> creates a named volume in the given host path.
+  -v [HOST_PATH]:[CONTAINER_PATH] -> creates a bind mount.
   --rm -> automatically remove the container when it finishes or is stopped.
   --name [CONTAINER_NAME] -> adds a name to the container.
 * docker container attach [CONTAINER_NAME] -> attachs to a container.
@@ -71,6 +72,15 @@ VOLUMES
   - Anonymous volumes:
     - Only can access through docker volume.
     - Volumes only exists while the container exists.
+    - If new containers are created, an new anonymous volume is created.
+    - To clear them: docker volume rm VOL_NAME or docker volume prune
   - Named volumes
     - Exists after the container is stopped / removed.
-* Use VOLUME in the Dockerfile. If no local path in the host is given, 
+* Volumes are great for data that should be persistent but doesn't need to be edited.
+
+BIND MOUNTS
+===========
+* Managed by the user.
+* User defines the folder / path on the host machine.
+* Ideal for persistent and editable data.
+* Is not done from the Dockerfile. 
