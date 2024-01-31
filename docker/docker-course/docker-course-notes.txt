@@ -84,3 +84,4 @@ BIND MOUNTS
 * User defines the folder / path on the host machine.
 * Ideal for persistent and editable data.
 * Is not done from the Dockerfile. 
+* The folders should be registered as resources on Docker to be acccessible.
