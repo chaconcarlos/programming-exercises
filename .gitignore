@@ -8,3 +8,5 @@ DartConfiguration.tcl
 Makefile
 cmake_install.cmake
 release
+docker/docker-course/.DS_Store
+docker/.DS_Store
