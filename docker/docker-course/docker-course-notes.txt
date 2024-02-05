@@ -77,11 +77,49 @@ VOLUMES
   - Named volumes
     - Exists after the container is stopped / removed.
 * Volumes are great for data that should be persistent but doesn't need to be edited.
+* By default, they are read/write.
+* By adding to the name :ro, will be read-only.
+  [HOST_PATH]:[CONTAINER_PATH]:ro
+  - Could be good idea with volumes that host code, for example.
+* If there are particular subdirectories that need writing permission on a read-only volume, it's possible
+  to create a volume for those sub-paths.
+* Anonymous volumes
+  - Removed after --rm the container.
+  - Because it is hosted on the host machine, it can be use for performance improvements.
+    - For example, node_modules, /tmp, etc.
+  - Cannot be used to share data.
+* Named volumes
+  - Not tied to a container.
+  - Survives container removal.
+  - Can be used to share data.
+  - Can be reused for the same container.
+  - You don't know where they are stored, like anonymous volumes.
+* Bind mounts
+  - Managed by the user.
+  - User defines the folder / path on the host machine.
+  - Ideal for persistent and editable data.
+  - Is not done from the Dockerfile. 
+  - The folders should be registered as resources on Docker to be acccessible.
+  - To clear a data of a bind mount, has to be deleted from the host machine.
+  - Shared across containers.
+  - Can be reused for same container across restarts.
+* docker volume inspect [VOLUME_NAME]
+  - See all details about a volume.
+* In production, you never use a bind mount for the code, so you use copy in the dockerfile for it.
+  - In development, the COPY can stay in the Dockerfile, but the bind mount should be created with [HOST_PATH]:[CONTAINER_PATH]:no-copy
 
-BIND MOUNTS
+.dockerignore FILES
+==================
+* Restrict what gets copied.
+* Works like a .gitignore.
+* Good idea to add for example:
+  - node_modules (in case of a nodejs app).
+  - Git files.
+  - Dockerfile.
+
+NODEJS APPS
 ===========
-* Managed by the user.
-* User defines the folder / path on the host machine.
-* Ideal for persistent and editable data.
-* Is not done from the Dockerfile. 
-* The folders should be registered as resources on Docker to be acccessible.
+* Create a bind for the code
+* Create an anonymous volume for the node_modules. Yarn 4?
+* Monitor changes -> nodemon, devDependency. Use this instead of node to start the app. Not sure how it works with electron.
+  - nodemon --watch . --exec "electron ."
