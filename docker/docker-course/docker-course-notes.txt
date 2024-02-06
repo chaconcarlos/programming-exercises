@@ -123,3 +123,35 @@ NODEJS APPS
 * Create an anonymous volume for the node_modules. Yarn 4?
 * Monitor changes -> nodemon, devDependency. Use this instead of node to start the app. Not sure how it works with electron.
   - nodemon --watch . --exec "electron ."
+
+ARGUMENTS & ENVIRONMENT VARIABLES
+=================================
+* ARG
+  - Available inside of Dockerfile, not accessible in CMD or any application code.
+  - Set on image build (docker build) using --build-arg.
+  - Works like a variable for the scope of the Dockerfile only.
+* ENV
+  - Available inside of Dockerfile and in application code.
+  - Set via ENV [NAME] [VALUE] in Dockerfile or via --env on docker run.
+  - The ENV can be used in commands in the Dockerfile. For example:
+    ENV PORT 80
+    EXPOSE $PORT
+  - Can be declared in a .env file.
+    .env
+      PORT=8000
+* Don't expose secure data directly in the Dockerfile. This can be set on docker run, or using a .env file.
+* Values "baked" in the image can be read using docker history [IMAGE_NAME].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
