@@ -9,6 +9,8 @@ Docker
   - Docker Hub
   - Docker Composer
   - Kubernetes
+* A container should focus on only one thing.
+* Isolation and separation -> core concepts.
 
 COMMANDS
 ========
@@ -128,8 +130,8 @@ ARGUMENTS & ENVIRONMENT VARIABLES
 =================================
 * ARG
   - Available inside of Dockerfile, not accessible in CMD or any application code.
-  - Set on image build (docker build) using --build-arg.
   - Works like a variable for the scope of the Dockerfile only.
+  - Set on image build (docker build) using --build-arg.
 * ENV
   - Available inside of Dockerfile and in application code.
   - Set via ENV [NAME] [VALUE] in Dockerfile or via --env on docker run.
@@ -142,13 +144,22 @@ ARGUMENTS & ENVIRONMENT VARIABLES
 * Don't expose secure data directly in the Dockerfile. This can be set on docker run, or using a .env file.
 * Values "baked" in the image can be read using docker history [IMAGE_NAME].
 
-
-
-
-
-
-
-
+NETWORKING
+==========
+* Out of the box, containers can send HTTP request to internet.
+* To connect to the host, the domain "host.docker.internal" has to be used instead of localhost.
+* To connect to other container:
+  - docker container inspect will show the IP address to the container -> NOT IDEAL, of course.
+  - Creating a network:
+    - docker network create [NETWORK_NAME]. Networks can be inspected using docker network ls.
+    - By adding --network [NETWORK_NAME] to the docker run command, docker can resolve the containers names when used as URLs: [CONTAINER_NAME]:[PORT]/[PATH]
+    - Make sure containers are part of the network.
+* Networks can be created using a driver. By default is "bridge". Other options are:
+  - host: For standalone containers, isolation between container and host system is removed (i.e. they share localhost as a network)
+  - overlay: Multiple Docker daemons (i.e. Docker running on different machines) are able to connect with each other. Only works in "Swarm" mode which is a dated / almost deprecated way of connecting multiple containers
+  - macvlan: You can set a custom MAC address to a container - this address can then be used for communication with that container
+  - none: All networking is disabled.
+  - Third-party plugins: You can install third-party plugins which then may add all kinds of behaviors and functionalities
 
 
 
