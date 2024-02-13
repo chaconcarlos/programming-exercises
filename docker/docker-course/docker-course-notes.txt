@@ -141,6 +141,7 @@ ARGUMENTS & ENVIRONMENT VARIABLES
   - Can be declared in a .env file.
     .env
       PORT=8000
+  - In Dockerfile, ENV [NAME]=[VALUE] is for default values.
 * Don't expose secure data directly in the Dockerfile. This can be set on docker run, or using a .env file.
 * Values "baked" in the image can be read using docker history [IMAGE_NAME].
 
