@@ -11,3 +11,4 @@ release
 docker/docker-course/.DS_Store
 docker/.DS_Store
 .DS_Store
+.pytest_cache
