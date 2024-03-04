@@ -18,7 +18,7 @@ def test_calculaterecursive_withinputone_shouldreturnone():
 
 def test_calculaterecursive_withinputtwo_shouldreturnone():
     """
-    Unit tests for the base case of getting the digit 1 of the Fibonacci sequence.
+    Unit tests for the base case of getting the digit 2 of the Fibonacci sequence.
     """
     assert fibonacci.calculate_recursive(2) == 1
 
@@ -42,7 +42,7 @@ def test_calculatememoization_withinputone_shouldreturnone():
 
 def test_calculatememoization_withinputtwo_shouldreturnone():
     """
-    Unit tests for the base case of getting the digit 1 of the Fibonacci sequence.
+    Unit tests for the base case of getting the digit 2 of the Fibonacci sequence.
     """
     assert fibonacci.calculate_memoization(2) == 1
 
@@ -66,7 +66,7 @@ def test_calculatebottomup_withinputone_shouldreturnone():
 
 def test_calculatebottomup_withinputtwo_shouldreturnone():
     """
-    Unit tests for the base case of getting the digit 1 of the Fibonacci sequence.
+    Unit tests for the base case of getting the digit 2 of the Fibonacci sequence.
     """
     assert fibonacci.calculate_bottom_up(2) == 1
 
