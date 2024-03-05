@@ -8,7 +8,7 @@ from examples import anagrams
 
 def test_anagrams_withavalidstring_returnvalidanagrams():
     """
-    Unit tests for the base case of getting the anagrams of a valid string.
+    Unit test for the base case of getting the anagrams of a valid string.
     """
     input_string = "abc"
     expected = [
