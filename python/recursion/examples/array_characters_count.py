@@ -1,10 +1,10 @@
 """
-Module that provides the function that gets the total number of characters in an array of string.
+Module that provides the function that gets the total number of characters in an array of strings.
 """
 
 def get_character_count(strings):
     """
-    Gets the 
+    Gets the total number of characters in an array of strings.
     """
     if (len(strings) == 0):
         return 0
