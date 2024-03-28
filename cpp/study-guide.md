@@ -403,7 +403,8 @@ public:
       if (tolower(s[first]) != tolower(s[last])) {
         return false;
       }
-
+		
+	  // Avoids overflow on the last pointer.
       if (last > first) {
         ++first;
         --last;
@@ -414,6 +415,9 @@ public:
   }
 };
 ```
+
+There's no copies, so the algorithm runs in place. The iteration for the while will take at most O(N/2) iterations. There's no use of additional space, so space complexity is constant. This results in 
+a time complexity of O(N) and a space complexity of O(1).
 
 #### 4.4 Lessons learned
 * Be careful with size_t and subtracting. If it gets to zero, there will be an overflow.
