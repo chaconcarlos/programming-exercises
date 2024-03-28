@@ -522,7 +522,8 @@ public:
 };
 ```
 
-Implemented using solution #3
+Implemented using solution #3.
+
 ```cpp
 #include <iostream>
 #include <unordered_map>
@@ -551,7 +552,11 @@ public:
 };
 ```
 
+I don't like this solution that much because it may break portability of the program, and potentially size_t (which is the type C++ uses for collection size) can be bigger than 32 bits. [[Source]](https://en.cppreference.com/w/cpp/types/size_t)
+
+>The primary use of size_t in C++ is for loop counting and array indexing provided by the standard template library in C++. Programs that rely on 32-bit modular arithmetic or use other types, for example - unsigned int and indexing of array, may break on 64-bit platforms whenever the array index exceeds UINT_MAX.
+
 
 ### 5.4 Lessons learned
-* `unordered_map` comparison (operator==) has a complexity of O(N^2) [[Source]](https://en.cppreference.com/w/cpp/container/unordered_map/operator_cmp).
+* `unordered_map` comparison (operator==) has a complexity of O(N^2) at worst [[Source]](https://en.cppreference.com/w/cpp/container/unordered_map/operator_cmp).
 
