@@ -9,6 +9,7 @@ About namespaces
 ### Important headers to remember
 | Header Name      | Description                                      |
 | -----------      | -----------                                      |
+| \<algorithm>     | Useful algorithms like std::sort                 |
 | \<stdexcept>     | Exceptions                                       |
 | \<string>        | std::string                                      |
 | \<unordered_set> | std::unordered_set                               |
@@ -18,7 +19,7 @@ About namespaces
 
 Code Snippets
 -------------
-### Iterating a container
+### Iterating a list-like container
 * C++98 way (using iterators):
 
   ```cpp
@@ -38,10 +39,33 @@ Code Snippets
   }
   ```
 
+### Iterating maps
+```cpp
+for (const auto& [key, value] : map) {
+  // Do something.
+}
+
+for (const std::pair<const std::string, std::string>& n : map) {
+  // Do something.
+  // n.first: key
+  // n.second: value
+}
+```
+
+
 Other advice
 ------------
 * Use a stringstream from sstream for situations that we have to format a string. std::string is mutable and can be used when there's a lot of concatenations.
 * Integer division returns the lowest next integer (floor).
+* `const` vs `constexpr` for defining static constants. Given
+```cpp
+const     double PI1 = 3.141592653589793;
+constexpr double PI2 = 3.141592653589793;
+```
+
+Both PI1 and PI2 are constant, meaning you can not modify them. However only PI2 is a compile-time constant. It shall be initialized at compile time. PI1 may be initialized at compile time or run time. So for **static constants, prefer `constexpr`**.
+
+
 
 Coding Problems
 ---------------
@@ -276,7 +300,9 @@ Constraints:
 * s consist of printable ASCII characters.
 
 #### 3.1 Analysis
+
 **Possible solutions**
+
 **1. Using two pointers.**
 We start with one pointer on the right, and one pointer on the left of the string. The left pointer advances forward, and the right pointer advances backwards. They advance until they match a vowel, and if that happens, it swaps the values. Has time complexity O(N) and O(N) space complexity, requiring a copy.
 
@@ -425,4 +451,107 @@ a time complexity of O(N) and a space complexity of O(1).
 * Test cases comes in all forms. Size 1, "a"; Size 2, "a.". Important to test weird cases.
 * Test cases can be a discussion point. That's why maybe they should presented first. For example, here there's a valid discussion if empty is a palindrome (it is) or what's the expectation with a single character.
 * `isalnum` was very helpful.
+
+### 5. Valid Anagram
+
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+Example 1:
+
+Input: s = "listen", t = "silent"
+Output: true
+
+Example 2:
+
+```
+Input: s = "rat", t = "car"
+Output: false
+```
+
+Example 3:
+
+```
+Input: s = "hello", t = "world"
+Output: false
+```
+
+Constraints:
+
+    1 <= s.length, t.length <= 5 * 104
+    s and t consist of lowercase English letters.
+
+### 5.1 Analysis
+
+**Possible solutions**
+
+**1. Sorting both string, then comparing.** Sorting would have a complexity of O(M log M + N Log N), and comparing O(N). In total, would be O(N log N) for time complexity. For space complexity, given that is required to copy both strings, would be O(N * M) (worst case when they are not anagrams). Definitely the complexity for both time and space can be improved by validating the size of both at the beginning. That would get O(N log N) for time and O(N) for space.
+
+**2. Using unordered maps for counting the occurrences of the characters.** Get the counts for each character in unordered maps for each string, then compare both unordered maps. This would require O(N + N) for building the count maps. Then O(N^2) for map comparison [[Source]](https://en.cppreference.com/w/cpp/container/unordered_map/operator_cmp). Space complexity is O(N).
+
+**3. Unordered maps, but subtracting the counts.**
+
+### 5.2 Test cases
+* A valid anagram.
+* Two strings that are not anagrams.
+* No need to test the empty string.
+* One character anagrams.
+* Strings with different sizes.
+* Not anagrams with same size.
+
+### 5.3 Solution
+
+Implemented using solution #2
+```cpp
+#include <algorithm>
+#include <iostream>
+
+class Solution {
+public:
+    bool isAnagram(std::string s, std::string t) {
+      if (s.size() != t.size()) {
+        return false;
+      }
+
+      std::sort(s.begin(), s.end());
+      std::sort(t.begin(), t.end());
+
+      return s == t;
+    }
+};
+```
+
+Implemented using solution #3
+```cpp
+#include <iostream>
+#include <unordered_map>
+
+class Solution {
+public:
+    bool isAnagram(std::string s, std::string t) {
+      if (s.size() != t.size()) {
+        return false;
+      }
+
+      std::unordered_map<char, int> charCount;
+
+      for (size_t i = 0; i < s.size(); ++i) {
+        charCount[s[i]]++;
+        charCount[t[i]]--;
+      }
+
+      for (const auto& [character, count] : charCount) {
+        if (count != 0)
+          return false;
+      }
+
+      return true;
+    }
+};
+```
+
+
+### 5.4 Lessons learned
+* `unordered_map` comparison (operator==) has a complexity of O(N^2) [[Source]](https://en.cppreference.com/w/cpp/container/unordered_map/operator_cmp).
 
