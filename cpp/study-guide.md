@@ -482,7 +482,7 @@ Constraints:
     1 <= s.length, t.length <= 5 * 104
     s and t consist of lowercase English letters.
 
-### 5.1 Analysis
+#### 5.1 Analysis
 
 **Possible solutions**
 
@@ -492,7 +492,7 @@ Constraints:
 
 **3. Unordered maps, but subtracting the counts.**
 
-### 5.2 Test cases
+#### 5.2 Test cases
 * A valid anagram.
 * Two strings that are not anagrams.
 * No need to test the empty string.
@@ -500,7 +500,7 @@ Constraints:
 * Strings with different sizes.
 * Not anagrams with same size.
 
-### 5.3 Solution
+#### 5.3 Solution
 
 Implemented using solution #2
 ```cpp
@@ -556,7 +556,280 @@ I don't like this solution that much because it may break portability of the pro
 
 >The primary use of size_t in C++ is for loop counting and array indexing provided by the standard template library in C++. Programs that rely on 32-bit modular arithmetic or use other types, for example - unsigned int and indexing of array, may break on 64-bit platforms whenever the array index exceeds UINT_MAX.
 
+However, the constraints only specify that words can be only in the range of 1 <= s.length, t.length <= 5 * 104, which is fine for using an int.
 
-### 5.4 Lessons learned
+
+#### 5.4 Lessons learned
 * `unordered_map` comparison (operator==) has a complexity of O(N^2) at worst [[Source]](https://en.cppreference.com/w/cpp/container/unordered_map/operator_cmp).
+
+### 6. Shortest Word Distance
+Given an array of strings words and two different strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
+
+Example 1:
+
+```
+Input: words = ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"], word1 = "fox", word2 = "dog"
+Output: 5
+Explanation: The distance between "fox" and "dog" is 5 words.
+```
+
+Example 2:
+
+```
+Input: words = ["a", "c", "d", "b", "a"], word1 = "a", word2 = "b"
+Output: 1
+Explanation: The shortest distance between "a" and "b" is 1 word. Please note that "a" appeared twice.
+```
+
+Example 3:
+
+```
+Input: words = ["a", "b", "c", "d", "e"], word1 = "a", word2 = "e"
+Output: 4
+Explanation: The distance between "a" and "e" is 4 words.
+```
+
+Constraints:
+
+* 2 <= words.length <= 3 * 104
+* 1 <= words[i].length <= 10
+* words[i] consists of lowercase English letters.
+* word1 and word2 are in words.
+* word1 != word2
+
+### 6.1 Analysis
+
+At first, this could look like a two pointer problem where the pointers move. However, this can be solved with only one loop that checks if the current position is one of the words given, and then update the position.
+
+#### 6.2 Test cases
+* A valid word array like the example. ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"], word1 = "fox", word2 = "dog".
+* A word array, but word1 is in the last position and word2 at the first one.
+* Word1 is duplicated in both the start and the end.
+* Word1 and word2 are duplicated in the array.
+
+#### 6.3 Solution
+
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int shortestDistance(
+    const vector<string>& words,
+    const string& word1,
+    const string& word2) const
+  {
+    int position1 = -1;
+    int position2 = -1;
+    int shortestDistance = words.size();
+
+    for (int i = 0; i < words.size(); ++i)
+    {
+      if (words[i] == word1)
+      {
+        position1 = i;
+      }
+      else if (words[i] == word2)
+      {
+        position2 = i;
+      }
+
+      if (position1 >= 0 && position2 >= 0) {
+        shortestDistance = std::min(shortestDistance, std::abs(position2 - position1));
+      }
+    }
+
+    return shortestDistance;
+  }
+};
+```
+
+This solution has a time complexity of O(N), because we only need to iterate through the list of elements once. Space complexity is constant, no copies are done, and always use 3 variables to do its job.
+
+#### 6.4 Lessons learned
+* Don't blindly follow a solution. Understand it first.
+* When studying and getting stuck, don't stay stuck. Put a timer, and then study the solution.
+
+### 7. Number of Good Pairs
+Given an array of integers nums, return the number of good pairs.
+
+A pair (i, j) is called good if nums[i] == nums[j] and i < j.
+
+Example 1:
+
+```
+Input: nums = [1,2,3,1,1,3]
+Output: 4
+Explanation: There are 4 good pairs, here are the indices: (0,3), (0,4), (3,4), (2,5).
+```
+
+Example 2:
+
+```
+Input: nums = [1,1,1,1]
+Output: 6
+Explanation: Each pair in the array is a 'good pair'.
+```
+
+Example 3:
+
+```
+Input: words = nums = [1,2,3]
+Output: 0
+Explanation: No number is repeating.
+```
+
+Constraints:
+
+* 1 <= nums.length <= 100
+* 1 <= nums[i] <= 100
+
+### 7.1 Analysis
+
+**Possible solutions**
+
+**1. Brute-force.**
+
+Iterate through each element and then iterate through the whole list looking for good pairs for that element. Will end up having a time  complexity of O(N-1 + N - 2 + N - 3 + ... + 1) = O(N * (N - 1) / N) = O(N^2)
+
+**2. Using a hash table.**
+
+Calculate the ocurrences of each number and save them to a hash table. Whenever we find a new occurrence of a number, we have found a new pair, if there's at least 2 elements.
+
+Every new occurrence of a number can be paired with every previous occurrence of the same number. This means if a number has already appeared p times, we will have p-1 new pairs. This can be done with 1 iteration.
+
+### 7.3 Solution
+```cpp
+#include <iostream>
+#include <map>
+#include <vector>
+
+class Solution {
+  public:
+    int numGoodPairs(const std::vector<int>& nums) {
+      std::unordered_map<int, int> ocurrences;
+      int pairCount = 0;
+
+      for (size_t i = 0; i < nums.size(); ++i) {
+        ocurrences[nums[i]]++;
+
+        pairCount += ocurrences[nums[i]] - 1;
+      }
+
+      return pairCount;
+    }
+};
+```
+
+This solution has time complexity of O(N), because only needs one pass through the whole input vector. Space complexity will be in the worst case O(N), which correspond to the unordered map fill with one ocurrence for each element if there are no equal elements.
+
+### 7.4 Lessons Learned
+
+* There's no factorial function in the C++ standard library.
+* Sometimes solutions are simpler than they look.
+
+### 8. Sqrt (medium)
+
+Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.
+
+You must not use any built-in exponent function or operator.
+
+For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.
+
+Example 1:
+
+```
+Input: x = 8
+Output: 2
+Explanation: The square root of 8 is 2.8284, and since we need to return the floor of the square root (integer), hence we returned 2.
+```
+
+Example 2:
+
+```
+Input: x = 4
+Output: 2
+Explanation: The square root of 4 is 2.
+```
+
+Example 3:
+
+```
+Input: x = 2
+Output: 1
+Explanation: The square root of 2 is 1.414, and since we need to return the floor of the square root (integer), hence we returned 1.
+```
+
+Constraints:
+
+* 0 <= x <= 231 - 1
+
+#### 8.3 Solution
+
+```cpp
+class Solution {
+public:
+  int mySqrt(const int x) const
+  {
+    if (x < 2) {
+      return x;
+    }
+
+    int left = 2;
+    int right = x / 2;
+
+    while (left <= right) {
+      int pivot = left + (right - left) / 2;
+      long squaredPivot = static_cast<long>(pivot) * pivot;
+
+      if (squaredPivot > x) {
+        right = pivot - 1;
+      } else if (squaredPivot < x) {
+        left = pivot + 1;
+      } else {
+        return pivot;
+      }
+    }
+
+    return right;
+  }
+};
+```
+
+**Time Complexity**
+
+**1. Binary Search Algorithm:** The key part of this algorithm is the binary search, which repeatedly divides the search interval in half. The time complexity of binary search is O(log N), where N is the size of the search space. In this case, the search space is initially from 2 to x/2.
+
+**2. Search Space:** The maximum size of the search space is x/2 (when x >= 4). For smaller values of x, the function immediately returns x, as it's either 0 or 1.
+
+**3. Overall Time Complexity:** Considering the binary search on a range up to x/2, the time complexity is O(log x / 2), which simplifies to O(log x).
+
+**Space Complexity**
+
+**1. Constant Extra Space:** The algorithm uses a fixed number of integer variables (left, right, pivot, num), regardless of the input size.
+
+**2. No Recursive Calls or Dynamic Allocation:** The implementation does not use recursion or allocate additional data structures that grow with the input size.
+
+**3. Overall Space Complexity:** Given the constant amount of extra space, the space complexity is O(1), meaning it's constant.
+
+#### 8.4 Lessons learned
+
+* Be careful with overflowing when doing math operations. For example:
+```cpp
+int pivot = left + (right - left) / 2;
+
+// This will overflow. Pivot is still an integer multiplication.
+long squaredPivot = pivot * pivot;
+
+// This will not overflow. By one of the operands being casted to long,
+// the final operation is a long.
+long squaredPivot = static_cast<long>(pivot) * pivot;
+```
+
+* Use modern cast operations instead of C-type casts. [[More info]](https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used)
 
