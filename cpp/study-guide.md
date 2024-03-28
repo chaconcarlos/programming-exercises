@@ -1,21 +1,22 @@
 Coding Interview Patterns Study Guide
 =====================================
 
-ABOUT NAMESPACES
+About namespaces
 ----------------
-### using namespace std is bad practice.
+### `using namespace std` is a bad practice.
   While using namespace std; might seem convenient, it's generally considered bad practice due to the potential for naming conflicts and reduced code readability. Embracing explicit namespace usage is a better approach, ensuring your code remains clean, maintainable, and free of unexpected issues. [[Source]](https://dev.to/iamcymentho/using-namespace-std-in-c-why-its-considered-bad-practice-2adf)
 
 ### Important headers to remember
-| Header Name      | Description                              |
-| -----------      | -----------                              |
-| \<stdexcept>     | Exceptions                               |
-| \<string>        | std::string                              |
-| \<unordered_set> | std::unordered_set                       |
-| \<vector>        | std::vector                              |
-| \<iomanip>       | Stream manipulators (like set_precision) |
+| Header Name      | Description                                      |
+| -----------      | -----------                                      |
+| \<stdexcept>     | Exceptions                                       |
+| \<string>        | std::string                                      |
+| \<unordered_set> | std::unordered_set                               |
+| \<vector>        | std::vector                                      |
+| \<iomanip>       | Stream manipulators (like set_precision)         |
+| \<cctype>        | Character type utility functions, like isalpha() |
 
-CODE SNIPPETS
+Code Snippets
 -------------
 ### Iterating a container
 * C++98 way (using iterators):
@@ -36,13 +37,14 @@ CODE SNIPPETS
     // Do something with i.
   }
   ```
-OTHER ADVICE
+
+Other advice
 ------------
 * Use a stringstream from sstream for situations that we have to format a string. std::string is mutable and can be used when there's a lot of concatenations.
 * Integer division returns the lowest next integer (floor).
 
-PROBLEMS
---------
+Coding Problems
+---------------
 ### 1. Contains duplicate: Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
 Example 1:
 ```
@@ -211,7 +213,7 @@ class Solution {
 };
 ```
 
-### 2.4 Lessons learned
+#### 2.4 Lessons learned
 
 * An unordered_set can be initialized with an initializer list.
 ```cpp
@@ -229,3 +231,194 @@ class Solution {
 * “Objects of trivially-copyable types are the only C++ objects that may be safely copied with std::memcpy”. [[Source]](https://olafurw.com/2019-02-14-trivial-code/)
 * `isalpha(char)` returns **true** if a char is an alphabetic character.
 * `tolower(char)` returns the lowercase version of the given char.
+* `<cctype>` has a lot of useful utility functions for chars:
+	- `toupper()`
+	- `tolower()`
+	- `isxdigit(int ch)` ->  checks if ch is a hexadecimal numeric character as classified by the current C locale.
+	- `isupper()`
+	- `isspace()`
+	- `ispunct()`
+	- `islower()`
+	- `isdigit()`
+	- `isblank()`
+	- `isalpha()`
+	- `isalnum()`
+
+### 3. Reverse Vowels
+
+Given a string s, reverse only all the vowels in the string and return it.
+
+The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+Example 1:
+
+```
+Input: s= "hello"
+Output: "holle"
+```
+
+Example 2:
+
+```
+Input: s= "AEIOU"
+Output: "UOIEA"
+```
+
+Example 3:
+
+```
+Input: s= "DesignGUrus"
+Output: "DusUgnGires"
+```
+
+Constraints:
+* 1 <= s.length <= 3 * 105
+* s consist of printable ASCII characters.
+
+#### 3.1 Analysis
+**Possible solutions**
+**1. Using two pointers.**
+We start with one pointer on the right, and one pointer on the left of the string. The left pointer advances forward, and the right pointer advances backwards. They advance until they match a vowel, and if that happens, it swaps the values. Has time complexity O(N) and O(N) space complexity, requiring a copy.
+
+#### 3.2 Test cases
+
+1. A string with pairs of vowels.
+2. A string with only one vowel.
+3. A string with no vowels.
+4. A string with an odd number of vowels.
+5. A string made with only vowels.
+6. A string with a combination of upper and lowercase vowels.
+
+#### 3.3 Solution
+```
+#include <iostream>
+#include <string>
+#include <unordered_set>
+
+static const std::unordered_set<char> VOWELS({
+  'a', 'A',
+  'e', 'E', 
+  'i', 'I',
+  'o', 'O',
+  'u', 'U'
+}); // Lookup: O(1)
+
+class Solution {
+  public:
+    std::string reverseVowels(const std::string& s) {
+      size_t left = 0;
+      size_t right = s.size() - 1;
+      std::string result = s; // O(N)
+
+      while (right > left) { // O(N/2)
+        while(right > left && VOWELS.find(result[left]) == VOWELS.end()) {
+          ++left;
+        }
+
+        while (right > left && VOWELS.find(result[right]) == VOWELS.end()) {
+          --right;
+        }
+
+        if (right > left)
+          std::swap(result[left++], result[right--]); // O(1)
+      }
+
+      return result;
+    }
+};
+```
+
+#### 3.4 Lessons learned
+* Be careful with the condition for stopping cycles. Make sure they are always valid.
+* Be careful with pre and post increments.
+* If I need a set for comparison (for example the vowels), if the set is small enough, just put everything. I tried first putting only lowercase values, but putting uppercase was cheap too.
+
+### 4. Valid Palindrome
+
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string s, return true if it is a palindrome, or false otherwise.
+
+Example 1:
+
+```
+Input: sentence = "A man, a plan, a canal, Panama!"
+Output: true
+Explanation: "amanaplanacanalpanama" is a palindrome.
+```
+
+Example 2:
+
+```
+Input: sentence = "Was it a car or a cat I saw?"
+Output: true
+Explanation: Explanation: "wasitacaroracatisaw" is a palindrome.
+```
+
+Constraints:
+
+    1 <= s.length <= 2 * 105
+    s consists only of printable ASCII characters.
+
+#### 4.1 Analysis.
+
+This is basically solved using the two pointer pattern.
+
+#### 4.2 Test cases
+
+* Empty string.
+* A one character string.
+* A palindrome with alphabetic letters and numbers.
+* A character with a non-alphanumeric characters.
+* A character and a non-alphanumeric character.
+* A string that is not a palindrome.
+
+#### 4.3 Solution
+
+```
+#include <iostream>
+
+class Solution {
+public:
+  bool isPalindrome(const std::string& s) {
+    size_t first = 0;
+    size_t last = s.size() - 1;
+
+    if (s.empty()) {
+      return true;
+    }
+
+    while (last > first) {
+      while (last > first && !isalnum(s[first])) {
+        ++first;
+      }
+
+      while (last > first && !isalnum(s[last])) {
+        --last;
+      }
+
+      std::cout << first << std::endl;
+      std::cout << last << std::endl;
+
+      if (tolower(s[first]) != tolower(s[last])) {
+        return false;
+      }
+
+      if (last > first) {
+        ++first;
+        --last;
+      }
+    }
+
+    return true;
+  }
+};
+```
+
+#### 4.4 Lessons learned
+* Be careful with size_t and subtracting. If it gets to zero, there will be an overflow.
+* If you are going to go step by step, DO ALL THE STEPS. Think about side-effects, how variables are affected.
+* Test cases comes in all forms. Size 1, "a"; Size 2, "a.". Important to test weird cases.
+* Test cases can be a discussion point. That's why maybe they should presented first. For example, here there's a valid discussion if empty is a palindrome (it is) or what's the expectation with a single character.
+* `isalnum` was very helpful.
+
