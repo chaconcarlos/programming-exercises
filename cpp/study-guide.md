@@ -189,7 +189,7 @@ Iterate through all the characters in the string, and if it's an alphabet letter
 
 Implemented solution #5.
 
-```
+```cpp
 #include <unordered_set>
 #include <iostream>
 
@@ -290,7 +290,7 @@ We start with one pointer on the right, and one pointer on the left of the strin
 6. A string with a combination of upper and lowercase vowels.
 
 #### 3.3 Solution
-```
+```cpp
 #include <iostream>
 #include <string>
 #include <unordered_set>
@@ -375,7 +375,7 @@ This is basically solved using the two pointer pattern.
 
 #### 4.3 Solution
 
-```
+```cpp
 #include <iostream>
 
 class Solution {
