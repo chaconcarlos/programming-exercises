@@ -826,7 +826,7 @@ int pivot = left + (right - left) / 2;
 // This will overflow. Pivot is still an integer multiplication.
 long squaredPivot = pivot * pivot;
 
-// This will not overflow. By one of the operands being casted to long,
+// This will not overflow. By one of the operands being cast to long,
 // the final operation is a long.
 long squaredPivot = static_cast<long>(pivot) * pivot;
 ```
