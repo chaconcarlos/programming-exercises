@@ -52,6 +52,14 @@ for (const std::pair<const std::string, std::string>& n : map) {
 }
 ```
 
+Patterns
+--------
+
+### Two Pointers Pattern
+
+In problems where we deal with sorted arrays (or linked-lists) and need to find a set of elements that fulfill certain constraints, the Two Pointers approach becomes quite useful. The set of elements could be a pair, a triplet or even a subarray.
+
+It's important to remember that the 2-pointer pattern can differ in how the pointers go. Sometimes they go in the same direction, sometimes the go opposite sides. Sometimes they move simultaneously, others not.
 
 Other advice
 ------------
@@ -832,4 +840,114 @@ long squaredPivot = static_cast<long>(pivot) * pivot;
 ```
 
 * Use modern cast operations instead of C-type casts. [[More info]](https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used)
+
+### 9. Pair with Target Sum (easy)
+
+Given an array of numbers sorted in ascending order and a target sum, find a pair in the array whose sum is equal to the given target.
+
+Write a function to return the indices of the two numbers (i.e. the pair) such that they add up to the given target. If no such pair exists return [-1, -1].
+
+Example 1:
+
+```
+Input: [1, 2, 3, 4, 6], target=6
+Output: [1, 3]
+Explanation: The numbers at index 1 and 3 add up to 6: 2+4=6
+```
+
+Example 2:
+
+```
+Input: [2, 5, 9, 11], target=11
+Output: [0, 2]
+Explanation: The numbers at index 0 and 2 add up to 11: 2+9=11
+```
+
+Constraints:
+
+* 2 <= arr.length <= 10^4
+* -10^9 <= arr[i] <= 10^9
+* -10^9 <= target <= 10^9
+* Only one valid answer exists.
+
+#### 9.1 Analysis
+
+**1. Brute force.**
+
+Since the given array is sorted, a brute-force solution could be to iterate through the array, taking one number at a time and searching for the second number through Binary Search. The time complexity of this algorithm will be O(N log N).
+
+**2. Using two pointers.**
+
+I chose this solution.
+
+**3. Using a hash table.**
+
+Instead of using a two-pointer or a binary search approach, we can utilize a HashTable to search for the required pair. We can iterate through the array one number at a time. Let’s say during our iteration we are at number ‘X’, so we need to find ‘Y’ such that “X + Y == Target". We will do two things here:
+
+Search for ‘Y’ (which is equivalent to “Target−X”) in the HashTable. If it is there, we have found the required pair. Otherwise, insert “X” in the HashTable, so that we can search it for the later numbers.
+
+Complexity O(N).
+
+#### 9.2 Solution
+
+``` cpp
+#include <iostream>
+#include <vector>
+
+class Solution {
+
+  public:
+
+  static std::vector<int> search(
+    const std::vector<int>& arr,
+    int targetSum)
+  {
+    int first = 0;
+    int last  = arr.size() - 1;
+
+    while (first < last)
+    {
+      const int sum = arr[first] + arr[last];
+
+      if (sum > targetSum)
+      {
+        --last;
+      }
+      else if (sum < targetSum)
+      {
+        ++first;
+      }
+      else {
+        return std::vector<int>({ first, last });
+      }
+    }
+
+    return std::vector<int>({ -1, -1});
+  }
+};
+```
+
+**Time Complexity**
+
+**Initialization:  **
+
+Constant time, O(1), as it involves assigning values to left and right.
+
+**While Loop:**
+
+The while loop runs as long as left is less than right.
+
+In the worst case, this loop iterates over all elements of the array once. This happens when no pair is found, or the pair is found at the extreme ends of the array. 
+
+Each iteration involves a constant amount of work: calculating currentSum, comparing it with targetSum, and then incrementing left or decrementing right.
+
+Therefore, the loop runs in O(N) time, where N is the number of elements in the array.
+
+**Overall:**
+
+The dominant factor in this algorithm is the while loop, making the overall time complexity O(N).
+
+**Space Complexity**
+
+The algorithm uses a fixed amount of extra space: variables left, right, and currentSum. It does not depend on the size of the input array, as no additional data structures are used that grow with the input size. Thus, the space complexity is O(1), constant space.
 
