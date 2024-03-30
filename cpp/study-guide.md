@@ -57,9 +57,22 @@ Patterns
 
 ### Two Pointers Pattern
 
-In problems where we deal with sorted arrays (or linked-lists) and need to find a set of elements that fulfill certain constraints, the Two Pointers approach becomes quite useful. The set of elements could be a pair, a triplet or even a subarray.
+* In problems where we deal with sorted arrays (or linked-lists) and need to find a set of elements that fulfill certain constraints, the Two Pointers approach becomes quite useful. **The set of elements could be a pair, a triplet or even a subarray.**
+* It's important to remember that the 2-pointer pattern can differ in how the pointers go. Sometimes they go in the same direction, sometimes the go opposite sides. Sometimes they move simultaneously, others not.
+* **REMEMBER: for sorted arrays. You may need to sort the input first.** Although, not every problem may need it.
+* Usually in these problems, the difficulty is knowing when to move the pointers. Sometimes there's tricks, usually related to what to assume because the array is sorted.
+* Usually, if there's needed a constraint for n elements, the problem grows like this:
+  * Pair: two pointers.
+  * Triplets: for fixing up first element + two pointers for the rest. 
+  * Quadruplets: 2 for's for fixing up the first 2 elements, etc. O(N^3).
 
-It's important to remember that the 2-pointer pattern can differ in how the pointers go. Sometimes they go in the same direction, sometimes the go opposite sides. Sometimes they move simultaneously, others not.
+### Fast & Slow Pointers Pattern
+
+The Fast & Slow pointer approach, also known as the Hare & Tortoise algorithm, is a pointer algorithm that uses two pointers which move through the array (or sequence/LinkedList) at different speeds. This approach is quite useful when dealing with cyclic LinkedLists or arrays.
+
+By moving at different speeds (say, in a cyclic LinkedList), the algorithm proves that the two pointers are bound to meet. The fast pointer should catch the slow pointer once both the pointers are in a cyclic loop.
+
+One of the famous problems solved using this technique was **Finding a cycle in a LinkedList**.
 
 Other advice
 ------------
