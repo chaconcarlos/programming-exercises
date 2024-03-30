@@ -19,6 +19,22 @@ About namespaces
 
 Code Snippets
 -------------
+### Append a char (not a char*) to a std::string
+
+Use `std::string::append(size_t n, char c)` -> Appends n consecutive copies of character c.
+
+```cpp
+result.append(1, characterStack.top());
+```
+
+Or `operator+`.
+
+```cpp
+std::string test = "TEST";
+
+test += "1" // Test is not "TEST1"
+```
+
 ### Iterating a list-like container
 * C++98 way (using iterators):
 
@@ -52,6 +68,38 @@ for (const std::pair<const std::string, std::string>& n : map) {
 }
 ```
 
+### Reverse a linked list
+```cpp
+static ListNode* reverse(ListNode* head) {
+    ListNode *prev = nullptr;
+
+    while (head != nullptr) {
+      ListNode *next = head->next;
+
+      head->next = prev;
+      prev = head;
+      head = next;
+    }
+
+    return prev;
+}
+```
+
+### Get the middle node of a linked list
+```cpp
+static ListNode* getMiddleNode(ListNode* head) {
+  ListNode* slow = head;
+  ListNode* fast = head;
+
+  while (fast != nullptr && fast->next != nullptr) {
+    slow = slow->next;
+    fast = fast->next->next;
+  }
+
+  return slow;
+}
+```
+
 Patterns
 --------
 
@@ -65,6 +113,7 @@ Patterns
   * Pair: two pointers.
   * Triplets: for fixing up first element + two pointers for the rest. 
   * Quadruplets: 2 for's for fixing up the first 2 elements, etc. O(N^3).
+* In these kind of problems, usually programming errors are in boundary checks for cycles.
 
 ### Fast & Slow Pointers Pattern
 
@@ -73,6 +122,20 @@ The Fast & Slow pointer approach, also known as the Hare & Tortoise algorithm, i
 By moving at different speeds (say, in a cyclic LinkedList), the algorithm proves that the two pointers are bound to meet. The fast pointer should catch the slow pointer once both the pointers are in a cyclic loop.
 
 One of the famous problems solved using this technique was **Finding a cycle in a LinkedList**.
+
+* For finding a cycle, start both slow and fast at head. Remember because of this, when advancing, it's usually a **do while (slow != fast)**.
+
+* Mostly useful when: finding the middle of a linked list, or detecting cycles.
+
+### Sliding Window Pattern
+In many problems dealing with an array (or a LinkedList), we are asked to find or calculate something among all the subarrays (or sublists) of a given size. For example, **given an array, find the average of each subarray of ‘K’ contiguous elements in it.**
+
+### In-place Reversal of a Linked List Pattern
+
+In a lot of problems, we are asked to reverse the links between a set of nodes of a LinkedList. Often, the constraint is that we need to do this in-place, i.e., using the existing node objects and without using extra memory.
+
+### Stacks
+
 
 Other advice
 ------------
