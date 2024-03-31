@@ -139,17 +139,15 @@ In a lot of problems, we are asked to reverse the links between a set of nodes o
 
 Other advice
 ------------
-* Use a stringstream from sstream for situations that we have to format a string. std::string is mutable and can be used when there's a lot of concatenations.
+* Use a `stringstream` from `sstream` for situations that we have to format a string. std::string is mutable and can be used when there's a lot of concatenations.
 * Integer division returns the lowest next integer (floor).
-* `const` vs `constexpr` for defining static constants. Given
+* `const` vs `constexpr` for defining native type static constants. Given
 ```cpp
 const     double PI1 = 3.141592653589793;
 constexpr double PI2 = 3.141592653589793;
 ```
 
-Both PI1 and PI2 are constant, meaning you can not modify them. However only PI2 is a compile-time constant. It shall be initialized at compile time. PI1 may be initialized at compile time or run time. So for **static constants, prefer `constexpr`**.
-
-
+Both PI1 and PI2 are constant, meaning you can not modify them. However only PI2 is a compile-time constant. It shall be initialized at compile time. PI1 may be initialized at compile time or run time. So for **native type static constants, prefer `constexpr`**. For objects, it's necessary to use `const` still.
 
 Coding Problems
 ---------------
