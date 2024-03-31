@@ -1,4 +1,4 @@
-Coding Interview Patterns Study Guide
+Coding Patterns Study Guide
 =====================================
 
 About namespaces
