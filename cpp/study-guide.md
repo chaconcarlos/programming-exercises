@@ -137,11 +137,25 @@ In many problems dealing with an array (or a LinkedList), we are asked to find o
 * Usually this pattern gives you a **O(n) time complexity** (for the pattern, the constraint validation could multiply that).
 
 
+### Modified Binary Search Pattern
+
+Whenever we are given a sorted Array or LinkedList or Matrix, and we are asked to find a certain element, the best algorithm we can use is the Binary Search.
+
 ### In-place Reversal of a Linked List Pattern
 
 In a lot of problems, we are asked to reverse the links between a set of nodes of a LinkedList. Often, the constraint is that we need to do this in-place, i.e., using the existing node objects and without using extra memory.
 
+### Hashing
+
+Usually used in combination with other techniques, to count ocurrences, maximums, etc. or when quick retrieval of a value is needed (for example, as part of the structure of a trie).
+
+### Sets
+
+Usually used to check for duplicates, or visited nodes.
+
 ### Stacks
+
+Usually for balance pairing / checking (for example, **balanced parentheses problem.** ). Also, for dynamic programming and check / save visited nodes (DFS, BFS).
 
 ### Tries
 
