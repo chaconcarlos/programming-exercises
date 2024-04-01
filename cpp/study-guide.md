@@ -147,7 +147,7 @@ In a lot of problems, we are asked to reverse the links between a set of nodes o
 
 ### Hashing
 
-Usually used in combination with other techniques, to count ocurrences, maximums, etc. or when quick retrieval of a value is needed (for example, as part of the structure of a trie).
+Usually used in combination with other techniques, to count occurrences, maximums, etc. or when quick retrieval of a value is needed (for example, as part of the structure of a trie).
 
 ### Sets
 
