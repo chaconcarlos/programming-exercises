@@ -130,12 +130,24 @@ One of the famous problems solved using this technique was **Finding a cycle in 
 ### Sliding Window Pattern
 In many problems dealing with an array (or a LinkedList), we are asked to find or calculate something among all the subarrays (or sublists) of a given size. For example, **given an array, find the average of each subarray of ‘K’ contiguous elements in it.**
 
+* Useful when for example there's overlapping elements in an array, and want to avoid repeating calculations. That's the case for:
+	* Given an array, find the average of each subarray of ‘K’ contiguous elements in it.
+	* Given an array of positive numbers and a positive number 'k,' find the maximum sum of any contiguous subarray of size 'k'.
+* This pattern usually has a distinct shape; a `for` loop that moves the window end border, and on each ieration the given constraint is validated to decide if the window start should be moved.
+* Usually this pattern gives you a **O(n) time complexity** (for the pattern, the constraint validation could multiply that).
+
+
 ### In-place Reversal of a Linked List Pattern
 
 In a lot of problems, we are asked to reverse the links between a set of nodes of a LinkedList. Often, the constraint is that we need to do this in-place, i.e., using the existing node objects and without using extra memory.
 
 ### Stacks
 
+### Tries
+
+A Trie, short for retrieval, is a specialized tree-based data structure primarily used for efficient storing, searching, and retrieval of strings over a given alphabet. It excels in scenarios where a large collection of strings needs to be managed and pattern-matching operations need to be performed with optimal efficiency.
+
+Tries are commonly employed in applications such as spell checking, autocomplete suggestions, and searching within dictionaries or databases. They excel at these tasks because they minimize the search complexity in proportion to the length of the target string, making them significantly more efficient than other data structures like binary search trees.
 
 Other advice
 ------------
