@@ -7,15 +7,15 @@ About namespaces
   While using namespace std; might seem convenient, it's generally considered bad practice due to the potential for naming conflicts and reduced code readability. Embracing explicit namespace usage is a better approach, ensuring your code remains clean, maintainable, and free of unexpected issues. [[Source]](https://dev.to/iamcymentho/using-namespace-std-in-c-why-its-considered-bad-practice-2adf)
 
 ### Important headers to remember
-| Header Name      | Description                                      |
-| -----------      | -----------                                      |
-| \<algorithm>     | Useful algorithms like std::sort                 |
-| \<stdexcept>     | Exceptions                                       |
-| \<string>        | std::string                                      |
-| \<unordered_set> | std::unordered_set                               |
-| \<vector>        | std::vector                                      |
-| \<iomanip>       | Stream manipulators (like set_precision)         |
-| \<cctype>        | Character type utility functions, like isalpha() |
+| Header Name       | Description                                      |
+| -----------       | -----------                                      |
+| `<algorithm>`     | Useful algorithms like std::sort                 |
+| `<stdexcept>`     | Exceptions                                       |
+| `<string>`        | std::string                                      |
+| `<unordered_set>` | std::unordered_set                               |
+| `<vector>`        | std::vector                                      |
+| `<iomanip>`       | Stream manipulators (like set_precision)         |
+| `<cctype>`        | Character type utility functions, like isalpha() |
 
 Code Snippets
 -------------
@@ -47,6 +47,7 @@ test += "1" // Test is not "TEST1"
   }
   ```
 * C++14, using range-based for loop:
+
   ```cpp
   const std::vector<int> nums;
 
@@ -139,7 +140,65 @@ In many problems dealing with an array (or a LinkedList), we are asked to find o
 
 ### Modified Binary Search Pattern
 
-Whenever we are given a sorted Array or LinkedList or Matrix, and we are asked to find a certain element, the best algorithm we can use is the Binary Search.
+Whenever we are given a sorted Array or LinkedList or Matrix, and we are asked to find a certain element, the best algorithm we can use is the Binary Search. Time complexity is O(log n).
+
+Implementation:
+
+```cpp
+	int low = 0;
+	int high = arr.size() - 1;
+	
+	while (low <= high) {
+	  const int middle = low + (high - low) / 2;
+	
+	  if (arr[middle] == key) {
+	    return middle;
+	  } else if (key > arr[middle]) {
+	    low = middle + 1;
+	  } else if (key < arr[middle]) {
+	    high = middle - 1;
+	  }
+	}
+```
+
+if at the end the element is not found, low will be the smallest greater value than the key. High will be the greatest element smaller than the key.
+
+An sort-direction agnostic implementation:
+
+```cpp
+int search(const vector<int>& arr, int key) {
+    int low = 0;
+    int high = arr.size() - 1;
+    int middle = low + (high - low) / 2;
+    const bool isAscending = arr[middle] > arr[low];
+
+    while (low <= high) {
+      middle = low + (high - low) / 2;
+
+      if (arr[middle] == key) {
+        return middle;
+      } 
+
+      if (isAscending) {
+        if (key > arr[middle]) {
+          low = middle + 1;
+        } else {
+          high = middle - 1;
+        }
+      } else {
+        if (key > arr[middle]) {
+          high = middle - 1;
+        } else {
+          low = middle + 1;
+        }
+      }
+    }
+
+    return -1;
+  }
+```
+
+
 
 ### In-place Reversal of a Linked List Pattern
 
@@ -179,12 +238,15 @@ Coding Problems
 ---------------
 ### 1. Contains duplicate: Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
 Example 1:
+
 ```
 Input: nums= [1, 2, 3, 4]
 Output: false
 Explanation: There are no duplicates in the given array.
 ```
+
 Example 2:
+
 ```
 Input: nums= [1, 2, 3, 1]
 Output: true
@@ -348,6 +410,7 @@ class Solution {
 #### 2.4 Lessons learned
 
 * An unordered_set can be initialized with an initializer list.
+
 ```cpp
   std::unordered_set<string>New_set({
     "Ground",
@@ -357,6 +420,7 @@ class Solution {
     "Wood"
   });
 ```
+
 * To erase an element from an unordered_set, use `erase(ELEMENT)`.
 * Don't forget to put the type on the template for the containers.
 * No need to use references when using a range-based for when using native types, because they are trivially-copyable.
@@ -611,6 +675,7 @@ Constraints:
 #### 5.3 Solution
 
 Implemented using solution #2
+
 ```cpp
 #include <algorithm>
 #include <iostream>
@@ -928,6 +993,7 @@ public:
 #### 8.4 Lessons learned
 
 * Be careful with overflowing when doing math operations. For example:
+
 ```cpp
 int pivot = left + (right - left) / 2;
 
@@ -1029,7 +1095,7 @@ class Solution {
 
 **Time Complexity**
 
-**Initialization:  **
+**Initialization:**
 
 Constant time, O(1), as it involves assigning values to left and right.
 
