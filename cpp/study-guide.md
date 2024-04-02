@@ -140,7 +140,7 @@ In many problems dealing with an array (or a LinkedList), we are asked to find o
 
 ### Modified Binary Search Pattern
 
-Whenever we are given a sorted Array or LinkedList or Matrix, and we are asked to find a certain element, the best algorithm we can use is the Binary Search. Time complexity is O(log n).
+Whenever we are given a **sorted** Array or LinkedList or Matrix, and we are asked to find a certain element, the best algorithm we can use is the Binary Search. Time complexity is O(log n).
 
 Implementation:
 
@@ -198,6 +198,138 @@ int search(const vector<int>& arr, int key) {
   }
 ```
 
+**It's crucial to remember that the input needs to be sorted to use the binary search.**
+
+### Tree Breadth First Search Pattern
+
+This pattern is based on the Breadth First Search (BFS) technique to traverse a tree. It's an iterative algorithm.
+
+Any problem involving the traversal of a tree in a level-by-level order can be efficiently solved using this approach. We will use a Queue to keep track of all the nodes of a level before we jump onto the next level. This also means that the space complexity of the algorithm will be O(W), where ‘W’ is the maximum number of nodes on any level.
+
+**Traversal of a binary tree level by level:**
+
+```cpp
+  std::vector<vector<int>> traverse(TreeNode *root) {
+    vector<vector<int>> result;
+    queue<TreeNode*> queue;
+
+    queue.push(root);
+
+    while (!queue.empty()) {
+      const int levelSize = queue.size();
+      std::vector<int> currentLevel;
+
+      for (int i = 0; i < levelSize; ++i) {
+        TreeNode* node = queue.front();
+        currentLevel.push_back(node->val);
+        queue.pop();
+
+        if (node->left != nullptr) {
+          queue.push(node->left);
+        }
+
+        if (node->right != nullptr) {
+          queue.push(node->right);
+        }
+      }
+
+      result.push_back(currentLevel);
+    }
+
+    return result;
+  }
+```
+
+**Reverse traversal of a binary tree:**
+
+```cpp
+class Solution {
+public:
+  vector<vector<int>> traverse(TreeNode *root) {
+    deque<vector<int>> result = deque<vector<int>>();
+    vector<vector<int>> output = vector<vector<int>>();
+    if (root == nullptr) {
+      return output;
+    }
+
+    queue<TreeNode *> queue;
+    queue.push(root);
+    while (!queue.empty()) {
+      int levelSize = queue.size();
+      vector<int> currentLevel;
+      for (int i = 0; i < levelSize; i++) {
+        TreeNode *currentNode = queue.front();
+        queue.pop();
+        // add the node to the current level
+        currentLevel.push_back(currentNode->val);
+        // insert the children of current node to the queue
+        if (currentNode->left != nullptr) {
+          queue.push(currentNode->left);
+        }
+        if (currentNode->right != nullptr) {
+          queue.push(currentNode->right);
+        }
+      }
+      // append the current level at the beginning
+      result.push_front(currentLevel);
+    }
+
+    // convert the result queue to vector for output
+    for (auto level : result) {
+      output.push_back(level);
+    }
+
+    return output;
+  }
+};
+```
+
+**Zigzag traversal**
+
+```
+vector<vector<int>> traverse(TreeNode *root) {
+    vector<vector<int>> result;
+    queue<TreeNode*> queue;
+    bool isReverseOrder = false;
+
+    queue.push(root);
+
+    while (!queue.empty()) {
+      const int levelSize = queue.size();
+      std::vector<int> level(levelSize);
+
+      for (int i = 0; i < levelSize; ++i) {
+        TreeNode* node = queue.front();
+
+        if (isReverseOrder)
+          level[levelSize - 1 - i] = node->val;
+        else
+          level[i] = node->val;
+
+        queue.pop();
+
+        if (node->left != nullptr)
+          queue.push(node->left);
+
+        if (node->right != nullptr) {
+          queue.push(node->right);
+        }
+      }
+
+      result.push_back(level);
+
+      isReverseOrder = !isReverseOrder;
+    }
+
+    return result;
+  }
+```
+
+### Tree Depth First Search Pattern
+
+This pattern is based on the Depth First Search (DFS) technique to traverse a tree.
+
+We will be using recursion (or we can also use a stack for the iterative approach) to keep track of all the previous (parent) nodes while traversing. This also means that the space complexity of the algorithm will be O(H), where ‘H’ is the maximum height of the tree.
 
 
 ### In-place Reversal of a Linked List Pattern
