@@ -1,8 +1,85 @@
-Coding Patterns Study Guide
-=====================================
+# Coding Patterns Study Guide
 
-About namespaces
-----------------
+# Coding Patterns Study Guide
+
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+- [About namespaces](#code-snippets)
+   * [`using namespace std` is a bad practice.](#using-namespace-std-is-a-bad-practice)
+   * [Important headers to remember](#important-headers-to-remember)
+- [Code Snippets](#code-snippets)
+   * [Append a char (not a char*) to a std::string](#append-a-char-not-a-char-to-a-stdstring)
+   * [Different ways to get a substring from a std::string](#different-ways-to-get-a-substring-from-a-stdstring)
+   * [Replace a char in a std::string](#replace-a-char-in-a-stdstring)
+   * [Iterating a list-like container](#iterating-a-list-like-container)
+   * [Iterating maps](#iterating-maps)
+   * [Reverse a linked list](#reverse-a-linked-list)
+   * [Merge 2 linked lists, no order.](#merge-2-linked-lists-no-order)
+   * [Merge 2 linked lists, ascending order](#merge-2-linked-lists-ascending-order)
+   * [Get the middle node of a linked list](#get-the-middle-node-of-a-linked-list)
+   * [Priority queue with custom lambda expression for sorting.](#priority-queue-with-custom-lambda-expression-for-sorting)
+   * [Compare 2 binary trees](#compare-2-binary-trees)
+   * [Know if a subtree is part of a binary tree](#know-if-a-subtree-is-part-of-a-binary-tree)
+   * [Count bits 1 on a number](#count-bits-1-on-a-number)
+   * [Using an unordered_set with std::pair<int, int>](#using-an-unordered_set-with-stdpair)
+- [Patterns](#patterns)
+   * [Two Pointers Pattern](#two-pointers-pattern)
+   * [Fast & Slow Pointers Pattern](#fast--slow-pointers-pattern)
+   * [Sliding Window Pattern](#sliding-window-pattern)
+   * [Modified Binary Search Pattern](#modified-binary-search-pattern)
+   * [Tree Breadth First Search Pattern](#tree-breadth-first-search-pattern)
+   * [Tree Depth First Search Pattern](#tree-depth-first-search-pattern)
+   * [In-place Reversal of a Linked List Pattern](#in-place-reversal-of-a-linked-list-pattern)
+   * [Hashing](#hashing)
+   * [Sets](#sets)
+   * [Stacks](#stacks)
+   * [Tries](#tries)
+- [Other advice](#other-advice)
+- [Coding Problems](#coding-problems)
+   * [1. Contains duplicate](#1-contains-duplicate)
+      + [1.1 Analysis](#11-analysis)
+      + [1.2 Test cases](#12-test-cases)
+      + [1.3 Solution](#13-solution)
+      + [1.4 Lessons learned](#14-lessons-learned)
+   * [2. Pangrams](#2-pangrams)
+      + [2.1 Analysis](#21-analysis)
+      + [2.2 Test cases](#22-test-cases)
+      + [2.3 Solution](#23-solution)
+      + [2.4 Lessons learned](#24-lessons-learned)
+   * [3. Reverse Vowels](#3-reverse-vowels)
+      + [3.1 Analysis](#31-analysis)
+      + [3.2 Test cases](#32-test-cases)
+      + [3.3 Solution](#33-solution)
+      + [3.4 Lessons learned](#34-lessons-learned)
+   * [4. Valid Palindrome](#4-valid-palindrome)
+      + [4.1 Analysis.](#41-analysis)
+      + [4.2 Test cases](#42-test-cases)
+      + [4.3 Solution](#43-solution)
+      + [4.4 Lessons learned](#44-lessons-learned)
+   * [5. Valid Anagram](#5-valid-anagram)
+      + [5.1 Analysis](#51-analysis)
+      + [5.2 Test cases](#52-test-cases)
+      + [5.3 Solution](#53-solution)
+      + [5.4 Lessons learned](#54-lessons-learned)
+   * [6. Shortest Word Distance](#6-shortest-word-distance)
+   * [6.1 Analysis](#61-analysis)
+      + [6.2 Test cases](#62-test-cases)
+      + [6.3 Solution](#63-solution)
+      + [6.4 Lessons learned](#64-lessons-learned)
+   * [7. Number of Good Pairs](#7-number-of-good-pairs)
+   * [7.1 Analysis](#71-analysis)
+   * [7.3 Solution](#73-solution)
+   * [7.4 Lessons Learned](#74-lessons-learned)
+   * [8. Sqrt (medium)](#8-sqrt-medium)
+      + [8.3 Solution](#83-solution)
+      + [8.4 Lessons learned](#84-lessons-learned)
+   * [9. Pair with Target Sum (easy)](#9-pair-with-target-sum-easy)
+      + [9.1 Analysis](#91-analysis)
+      + [9.2 Solution](#92-solution)
+
+<!-- TOC end -->
+
+## About namespaces
+
 ### `using namespace std` is a bad practice.
   While using namespace std; might seem convenient, it's generally considered bad practice due to the potential for naming conflicts and reduced code readability. Embracing explicit namespace usage is a better approach, ensuring your code remains clean, maintainable, and free of unexpected issues. [[Source]](https://dev.to/iamcymentho/using-namespace-std-in-c-why-its-considered-bad-practice-2adf)
 
@@ -17,8 +94,8 @@ About namespaces
 | `<iomanip>`       | Stream manipulators (like set_precision)         |
 | `<cctype>`        | Character type utility functions, like isalpha() |
 
-Code Snippets
--------------
+## Code Snippets
+
 ### Append a char (not a char*) to a std::string
 
 Use `std::string::append(size_t n, char c)` -> Appends n consecutive copies of character c.
@@ -33,6 +110,52 @@ Or `operator+`.
 std::string test = "TEST";
 
 test += "1" // Test is not "TEST1"
+```
+
+### Different ways to get a substring from a std::string
+
+```cpp
+// string::substr
+#include <iostream>
+#include <string>
+
+int main ()
+{
+  std::string str="We think in generalities, but we live in details.";
+                                           // (quoting Alfred N. Whitehead)
+
+  std::string str2 = str.substr (3,5);     // "think"
+
+  std::size_t pos = str.find("live");      // position of "live" in str
+
+  std::string str3 = str.substr (pos);     // get from "live" to the end
+
+  std::cout << str2 << ' ' << str3 << '\n';
+
+  return 0;
+}
+```
+
+### Replace a char in a std::string
+
+```cpp
+static const std::string ENCODED_WHITESPACE = "%20";
+
+while (i < testString.size()) {
+  const char currentChar = testString[i];
+  // How to concatenate a char to a string.
+  const std::string message = std::string("is '") + currentChar + "' a whitespace? ";
+  const bool isWhitespace = currentChar == ' ';
+	
+  std::cout << message << (isWhitespace ? "YES" : "NO") << std::endl;
+	
+  if (isWhitespace) {
+    testString.replace(i, 1, ENCODED_WHITESPACE);
+    i += ENCODED_WHITESPACE.size();
+  } else {
+    ++i;
+  }
+}
 ```
 
 ### Iterating a list-like container
@@ -86,6 +209,79 @@ static ListNode* reverse(ListNode* head) {
 }
 ```
 
+### Merge 2 linked lists, no order.
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* current1 = list1;
+        ListNode* current2 = list2;
+
+        while (current1 != nullptr && current2 != nullptr) {
+            ListNode* next1 = current1->next;
+            ListNode* next2 = current2->next;
+
+            if (current2 != nullptr)
+                current1->next = current2;
+
+            if (next1 != nullptr) {
+                current2->next = next1;
+            }
+
+            current1 = next1;
+            current2 = next2;
+        }
+
+        return list1 == nullptr ? list2 : list1;
+    }
+};
+
+```
+
+### Merge 2 linked lists, ascending order
+
+Remember to use an extra node for the start!
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if (list1 == nullptr) {
+            return list2;
+        }
+
+        if (list2 == nullptr) {
+            return list1;
+        }
+
+        ListNode* start = new ListNode();
+        ListNode* current = start;
+
+        while (list1 != nullptr && list2 != nullptr) {
+            if (list1->val > list2->val) {
+                current->next = list2;
+                list2 = list2->next;
+            } else {
+                current->next = list1;
+                list1 = list1->next;
+            }
+
+            current = current->next;
+        }
+
+        if (list1 == nullptr) {
+            current->next = list2;
+        } else {
+            current->next = list1;
+        }
+
+        return start->next;
+    }
+};
+```
+
+
 ### Get the middle node of a linked list
 ```cpp
 static ListNode* getMiddleNode(ListNode* head) {
@@ -101,8 +297,113 @@ static ListNode* getMiddleNode(ListNode* head) {
 }
 ```
 
-Patterns
---------
+### Priority queue with custom lambda expression for sorting.
+
+```cpp
+#include <queue>
+
+// Using lambda to compare elements.
+auto cmp = [](int left, int right) { return (left ^ 1) < (right ^ 1); };
+std::priority_queue<int, std::vector<int>, decltype(cmp)> q5(cmp);
+```
+
+### Compare 2 binary trees
+
+```cpp
+static bool isSameTree(TreeNode* p, TreeNode* q) {
+    if (p == nullptr || q == nullptr) 
+        return p == q;
+
+    if (p->val != q->val)
+        return false;
+    
+    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+}
+```
+
+### Know if a subtree is part of a binary tree
+
+```cpp
+bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+    if (root == nullptr) {
+        return false;
+    }
+
+    if (isSameTree(root, subRoot)) {
+        return true;
+    }
+
+    return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
+}
+```
+
+### Count bits 1 on a number
+
+```cpp
+static int getOnesCount(int n) {
+    int count = 0;
+
+    while (n > 0) {
+        n = n & (n - 1);
+        ++count;
+    }
+
+    return count;
+}
+```
+
+### Using an unordered_set with std::pair<int, int>
+
+```cpp
+// Hash function  
+struct hashFunction 
+{ 
+  size_t operator()(const pair<int ,  
+                    int> &x) const
+  { 
+    return x.first ^ x.second; 
+  } 
+}; 
+
+int main() 
+{ 
+  // Declaring an unordered set of pairs 
+  unordered_set<pair<int, int>,  
+  hashFunction> myUnorderedSet; 
+  
+  // Initializing pairs of int type 
+  pair<int, int> pair1; 
+  pair1 = make_pair(4, 2); 
+  
+  pair<int, int> pair2; 
+  pair2 = make_pair(2, 3); 
+  
+  pair<int, int> pair3; 
+  pair3 = make_pair(2, 3); 
+  
+  pair<int, int> pair4; 
+  pair4 = make_pair(5, 8); 
+  
+  pair<int, int> pair5; 
+  pair5 = make_pair(9, 5); 
+  
+  
+  // Inserting pairs in the unordered set 
+  myUnorderedSet.insert(pair1); 
+  myUnorderedSet.insert(pair2); 
+  myUnorderedSet.insert(pair3); 
+  myUnorderedSet.insert(pair4); 
+  myUnorderedSet.insert(pair5); 
+  
+  // Calling print function 
+  print(myUnorderedSet); 
+  return 0; 
+}
+```
+
+
+## Patterns
+
 
 ### Two Pointers Pattern
 
@@ -354,8 +655,21 @@ A Trie, short for retrieval, is a specialized tree-based data structure primaril
 
 Tries are commonly employed in applications such as spell checking, autocomplete suggestions, and searching within dictionaries or databases. They excel at these tasks because they minimize the search complexity in proportion to the length of the target string, making them significantly more efficient than other data structures like binary search trees.
 
-Other advice
-------------
+## Other advice
+
+* When working with palindromes, remember to handle non-alphanumeric characters and casing.
+* `<cctype>` has a lot of useful utility functions for chars:
+	- `toupper()`
+	- `tolower()`
+	- `isxdigit(int ch)` ->  checks if ch is a hexadecimal numeric character as classified by the current C locale.
+	- `isupper()`
+	- `isspace()`
+	- `ispunct()`
+	- `islower()`
+	- `isdigit()`
+	- `isblank()`
+	- `isalpha()`
+	- `isalnum()`
 * Use a `stringstream` from `sstream` for situations that we have to format a string. std::string is mutable and can be used when there's a lot of concatenations.
 * Integer division returns the lowest next integer (floor).
 * `const` vs `constexpr` for defining native type static constants. Given
@@ -366,9 +680,45 @@ constexpr double PI2 = 3.141592653589793;
 
 Both PI1 and PI2 are constant, meaning you can not modify them. However only PI2 is a compile-time constant. It shall be initialized at compile time. PI1 may be initialized at compile time or run time. So for **native type static constants, prefer `constexpr`**. For objects, it's necessary to use `const` still.
 
-Coding Problems
----------------
-### 1. Contains duplicate: Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+* A priority queue is useful to get the k largest o smallest elements of an array. The priority queue can be ordered using a lambda function that compares the occurrences in a `unordered_map`, so the top of the priority queue is the largest, etc. Also, remember that a priority queue can be used for heap sort.
+
+
+```cpp
+vector<int> topKFrequent(vector<int>& nums, int k) {
+    std::unordered_map<int, int> occurrences;
+    std::vector<int> result;
+
+    for (int i = 0; i < nums.size(); ++i) {
+        ++occurrences[nums[i]];
+    }
+    
+     // Compares if element 1 comes before element 2. In a priority queue, elements that come before 
+     // are output last. That means, if the comparison is n1 > n2, the top will be n2. 
+    auto comparisonFunc = [&occurrences] (int n1, int n2) { return occurrences[n1] > occurrences[n2]; };
+
+    std::priority_queue<int, std::vector<int>, decltype(comparisonFunc)> heap(comparisonFunc); 
+
+    for (const std::pair<int, int>& count: occurrences) {
+        heap.push(count.first);
+        if (heap.size() > k) heap.pop();
+    }
+
+    for (int i = 0; i < k; ++i) {
+        result.push_back(heap.top());
+        heap.pop();
+    }
+
+    return result;
+}
+```
+
+
+## Coding Problems
+
+### 1. Contains duplicate
+
+Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
 Example 1:
 
 ```
